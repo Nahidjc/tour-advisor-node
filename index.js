@@ -4,7 +4,7 @@ const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
-const PORT = 3000;
+const { MongoClient, ServerApiVersion } = require('mongodb')
 
 const app = express();
 
@@ -12,8 +12,27 @@ app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
 
+// username:tour-advisor
+// password:1TWsUC21uULtkC9N
+
+
+const URI = process.env.uri;
+const PORT = process.env.PORT;
+
+// console.log("URI",URI);
+
+// const client = new MongoClient("mongodb+srv://tour-advisor:1TWsUC21uULtkC9N@cluster0.ifdja.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", { useNewUrlParser: true,
+//   useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+// client.connect(err => {
+//   const collection = client.db("test").collection("devices");
+// console.log("MongoDb Connected");
+//   client.close();
+// });
+
+
+
 mongoose
-  .connect("mongodb://localhost/tour-advisor", {
+  .connect("mongodb+srv://tour-advisor:1TWsUC21uULtkC9N@cluster0.ifdja.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -36,7 +55,7 @@ mongoose
 
 
 
-// app.use("/user", require("./routes/userRoutes"));
+app.use("/user", require("./routes/userRoutes"));
 // app.use("/assesment", require("./routes/assesmentRoutes"));
 // app.use("/admin", require("./routes/adminRoutes"));
 

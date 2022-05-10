@@ -6,6 +6,19 @@ const userSchema = mongoose.Schema({
         require: true,
         trim: true,
     },
+    email: {
+        type: String,
+        trim: true,
+        lowercase: true,
+        unique: true,
+        validate: {
+            validator: function(v) {
+                return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v);
+            },
+            message: "Please enter a valid email"
+        },
+        required: [true, "Email required"]
+    },
     userName: {
         type: String,
         require: true,
@@ -18,7 +31,7 @@ const userSchema = mongoose.Schema({
     },
     role: {
         type: String,
-        default: "student",
+        default: "user",
     },
 
 

@@ -9,10 +9,10 @@ const userControllers = {
     register: async (req, res) => {
 
         try {
-            const { fullName, userName, password, rePassword, role } =
+            const { fullName, userName, password, rePassword, role,email } =
                 req.body;
 
-            if (!fullName || !userName || !password || !rePassword) {
+            if (!fullName || !userName || !password || !rePassword || !email) {
                 return res.status(400).json({ message: "Invalid Creadentials." });
             }
             const userExit = await User.findOne({ userName });
@@ -28,6 +28,7 @@ const userControllers = {
                 userName,
                 password: hashPassword,
                 role,
+                email
             });
             await newUser.save()
             console.log(newUser);
