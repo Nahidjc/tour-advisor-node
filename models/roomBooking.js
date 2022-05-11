@@ -1,14 +1,9 @@
 const mongoose = require("mongoose");
 
-const roomSchema = mongoose.Schema({
-    hotel: {
+const roomBookingSchema = mongoose.Schema({
+    user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "users",
-      },
-      title: {
-        type: String,
-        trim: true,
-        require: true,
       },
       price: {
         type: Number,
@@ -18,25 +13,30 @@ const roomSchema = mongoose.Schema({
       category: {
         type: String,
         require: true,
-      },
-      description: {
+      }, 
+      phoneNumber: {
         type: String,
         require: true,
       },
-      hotelName: {
+      address: {
         type: String,
         require: true,
       },
-      images: {
-        type: Object,
-        require: true,
-      },
-   
-      booked: {
+      isPaid: {
         type: Boolean,
         default: false,
-      }
+      },
+      checkin: {
+        type: Date,
+        default: Date.now,
+        require: true,
+      },
+      checkout: {
+        type: Date,
+        require: true,
+      },
+ 
      } , { timestamps: true, });
     
 
-module.exports = mongoose.model("Room",roomSchema)
+module.exports = mongoose.model("RoomBooking",roomBookingSchema)
