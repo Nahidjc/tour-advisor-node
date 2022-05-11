@@ -1,6 +1,5 @@
 const express = require("express");
-const User = require("../models/userModels");
-const Packege = require("../models/packegeModel");
+const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 
 const hotelControllers = {
