@@ -56,6 +56,8 @@ mongoose
 
 
 app.use("/user", require("./routes/userRoutes"));
+app.use("/hotel", require("./routes/hotelRoutes"))
+app.use("/host", require("./routes/packegeRoutes"))
 // app.use("/assesment", require("./routes/assesmentRoutes"));
 // app.use("/admin", require("./routes/adminRoutes"));
 
