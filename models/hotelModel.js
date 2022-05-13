@@ -6,10 +6,6 @@ const hotelRatingSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "users",
     },
-    hotel: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Hotel"
-    },
     rating:{
         type:Number,
         require: true,
@@ -41,7 +37,7 @@ const hotelSchema = mongoose.Schema({
         },
         required: [true, "Email required"]
     },
-    type:{
+    category:{
         type:String,
         require:true
     },
