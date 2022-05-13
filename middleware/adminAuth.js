@@ -16,13 +16,11 @@ const authAdmin = async (req, res, next) => {
       const admin = await User.findOne({
         _id: user.id,
       });
-
-      if (admin.role === "user" || admin.role === "hotel") {
-        return res.status(400).json({ msg: "Admin Recources Access Denied." });
+      if (admin.role === "admin" ) {
+        next();
+      
       }
-
-      // req.mentor = mentor
-      next();
+      return res.status(400).json({ msg: "Admin Recources Access Denied." });
 
     });
   } catch (error) {

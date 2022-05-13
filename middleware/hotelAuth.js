@@ -17,12 +17,13 @@ const hotelAdmin = async (req, res, next) => {
         _id: user.id,
       });
 
-      if (admin.role === "user" || admin.role === "admin") {
-        return res.status(400).json({ msg: "Hotel Manager Recources Access Denied." });
+      if (admin.role === "hotel" ) {
+        next();
+      
       }
-
+      return res.status(400).json({ msg: "Hotel Manager Recources Access Denied." });
       // req.mentor = mentor
-      next();
+   
 
     });
   } catch (error) {

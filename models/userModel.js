@@ -32,16 +32,8 @@ const userSchema = mongoose.Schema({
     role: {
         type: String,
         default: "user",
-    },
-    images: {
-        type: Object,
-    },
-    hotelName: {
-        type: String,
-        trim: true,
-        unique: true,
-        default: "",
-    },
+    }
+ 
 
 
 }, { timestamps: true, });
