@@ -3,4 +3,5 @@ const router = require("express").Router();
 const hotel = require("../middleware/hotelAuth");
 
 router.post("/create-room",hotel, hotelController.createRoom);
+router.post("/add",hotel, hotelController.addHotel);
 module.exports = router;

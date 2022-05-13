@@ -6,19 +6,23 @@ const hotelRatingSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "users",
     },
-    rating:{
-        type:Number,
+    rating: {
+        type: Number,
         require: true,
     },
-    comment:{
-        type:String,
-        
+    comment: {
+        type: String,
+
     }
 })
 
 
 
 const hotelSchema = mongoose.Schema({
+    manager:{
+        type:mongoose.Schema.ObjectId,
+        ref:"users"
+    },
     hotelName: {
         type: String,
         require: true,
@@ -37,19 +41,23 @@ const hotelSchema = mongoose.Schema({
         },
         required: [true, "Email required"]
     },
-    category:{
-        type:String,
-        require:true
+    isHotel: {
+        type: Boolean,
+        default: false
+    },
+    category: {
+        type: String,
+        require: true
     },
     description: {
         type: String,
-        require:true
+        require: true
     },
 
-    images: {
+    image: {
         type: Object,
     },
-    rating:[hotelRatingSchema]
+    rating: [hotelRatingSchema]
 
 }, { timestamps: true, });
 

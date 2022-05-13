@@ -1,7 +1,7 @@
 const express = require("express");
 const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
-
+const Hotel = require("../models/hotelModel")
 const hotelControllers = {
   createRoom: async (req, res) => {
     try {
@@ -11,7 +11,7 @@ const hotelControllers = {
       }
       const hostPerson = await User.findOne({ _id: host });
     
-      const newPackege = new Packege({
+      const newPackege = new Hotel({
         host: hostPerson._id,
         description,
         price,
@@ -26,6 +26,38 @@ const hotelControllers = {
       return res.status(500).json({ msg: error.message });
     }
   },
+
+
+  addHotel: async (req, res) => {
+    try {
+      const { hotelName,email, description, category } = req.body;
+      console.log(hotelName,email, description, category,);
+      if (!hotelName || !description || !email || !category ) {
+        return res.status(400).json({ msg: "Invalid Hotel Credentials." });
+      }
+      const exitHotel = await Hotel.findOne({ email: email });
+      if (exitHotel) {
+        return res.status(400).json({ msg: "Manager already hotel added." });
+      }
+      const newHotel = new Hotel({
+        manager: req.user.id,
+        description,
+        hotelName,
+        email,
+        category,
+      });
+
+      await newHotel.save();
+      res.json({ msg: "Request for Hotel Add" });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+
+
+
+
+
   updateAssesment:async (req, res) => {
     try {
         const { title,description, deadline_at} = req.body;

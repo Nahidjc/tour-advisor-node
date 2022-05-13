@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken")
 const hotelAdmin = async (req, res, next) => {
   try {
     const token = req.header("Authorization");
-    console.log(token);
+   
     if (!token) {
       return res.status(400).json({ message: "Invalid Authentication" });
     }
@@ -13,15 +13,16 @@ const hotelAdmin = async (req, res, next) => {
       }
       
       req.user = user;
+    
       const admin = await User.findOne({
         _id: user.id,
       });
-
-      if (admin.role === "hotel" ) {
-        next();
-      
+      console.log(admin);
+      if (admin.role !== 'hotel' ) {
+        return res.status(400).json({ msg: "Hotel Manager Recources Access Denied." });
       }
-      return res.status(400).json({ msg: "Hotel Manager Recources Access Denied." });
+      next(); 
+     
       // req.mentor = mentor
    
 
