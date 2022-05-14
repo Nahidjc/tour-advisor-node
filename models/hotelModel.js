@@ -57,6 +57,13 @@ const hotelSchema = mongoose.Schema({
     image: {
         type: Object,
     },
+    rooms:[
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref:'Room'
+        }
+    ]
+    ,
     rating: [hotelRatingSchema]
 
 }, { timestamps: true, });
