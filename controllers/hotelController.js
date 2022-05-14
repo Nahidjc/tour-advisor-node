@@ -2,8 +2,9 @@ const express = require("express");
 const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 const Hotel = require("../models/hotelModel")
+const Room = require("../models/roomModel")
 const hotelControllers = {
-  createRoom: async (req, res) => {
+  createPackege: async (req, res) => {
     try {
       const { host, description, price, from,destination,img } = req.body;
       if (!host || !description || !price || !from || !destination || !img) {
@@ -22,6 +23,47 @@ const hotelControllers = {
 
       await newPackege.save();
       res.json({ msg: "Created a Room." });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+
+
+
+
+  createRoom: async (req, res) => {
+    try {
+      const { title,price,category,description,hotelName} = req.body;
+      if (  !description || !price || !category ||  !title) {
+        return res.status(400).json({ msg: "Invalid Room Credentials." });
+      }
+      const hotelManager = await Hotel.findOne({ manager: req.user.id });
+      console.log(hotelManager);
+
+      if(!hotelManager.isHotel){
+        return res.status(400).json({ msg: "Hotel Manager Can not Permission to add any Room" });
+      }
+      const newRoom = new Room({
+        hotel: req.params.id,
+        description,
+        title,
+        category,
+        price,
+     
+      });
+      await newRoom.save();
+
+      await  Hotel.updateOne({
+        _id:hotelManager._id
+      },{
+        $push:{
+          rooms:newRoom._id
+        }
+      })
+  
+
+     
+      res.json({ msg: "Room was Successfully Created",result: newRoom });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }
