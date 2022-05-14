@@ -19,7 +19,7 @@ const URI = process.env.uri;
 const PORT = process.env.PORT;
 
 mongoose
-  .connect(`mongodb+srv://${process.env.username}:${process.env.password}@cluster0.ifdja.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`, {
+  .connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.ifdja.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
