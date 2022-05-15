@@ -1,5 +1,21 @@
 const mongoose = require("mongoose");
 
+const packegeRatingSchema = mongoose.Schema({
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "users",
+    },
+    rating: {
+        type: Number,
+        require: true,
+    },
+    comment: {
+        type: String,
+
+    }
+})
+
+
 const packegeSchema = mongoose.Schema({
     host: {
         type: mongoose.Schema.Types.ObjectId,
@@ -21,7 +37,11 @@ const packegeSchema = mongoose.Schema({
         type: String,
         require: true,
     },
-    img: { data: Buffer, contentType: String }
+    comments:[packegeRatingSchema],
+    image: {
+        type: Object,
+        require: true,
+      },
 
 }, { timestamps: true, });
 

@@ -17,10 +17,11 @@ const hostAdmin = async (req, res, next) => {
         _id: user.id,
       });
 
-      if (admin.role === "host" ) {
-        next();
+      if (admin.role !== "host" ) {
+        return res.status(400).json({ msg: "Packege Host Recources Access Denied." });
+      
       }
-      return res.status(400).json({ msg: "Packege Host Recources Access Denied." });
+      next();
       // req.mentor = mentor
      
 

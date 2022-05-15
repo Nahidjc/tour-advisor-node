@@ -29,7 +29,27 @@ const packegeControllers = {
       return res.status(500).json({ msg: error.message });
     }
   },
-  updateAssesment:async (req, res) => {
+
+
+  packegeList: async (req, res) => {
+    try {
+      const packeges = await Packege.find().select({
+        host: 0,
+        createdAt:0,
+        updatedAt:0
+      });
+
+      res.json({
+        status: "success",
+        result: packeges.length,
+        packeges: packeges,
+      });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+
+  updatePackege:async (req, res) => {
     try {
         const { title,description, deadline_at} = req.body;
         if (!title || !description) {
