@@ -49,6 +49,26 @@ const packegeControllers = {
     }
   },
 
+
+  packegeDetails: async (req, res) => {
+    try {
+      const packege = await Packege.find({_id:req.params.id}).select({
+        host: 0,
+        createdAt:0,
+        updatedAt:0
+      }).populate('comments');
+
+      res.json({
+        status: "success",
+        result: packege.length,
+        packege: packege,
+      });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+
+
   updatePackege:async (req, res) => {
     try {
         const { title,description, deadline_at} = req.body;
