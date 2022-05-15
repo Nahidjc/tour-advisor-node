@@ -142,6 +142,34 @@ const hotelControllers = {
       return res.status(500).json({ msg: error.message });
     }
   },
+
+  hotelDetails: async (req, res) => {
+    try {
+      const hotel = await Hotel.find({_id:req.params.id}).select({
+        manager: 0,
+        isHotel:0,
+        createdAt:0,
+        updatedAt:0
+      }).populate('rooms');
+
+      res.json({
+        status: "success",
+        result: hotel.length,
+        hotel: hotel,
+      });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+
+
+
+
+
+
+
+
+
   getMentorAssesments: async (req, res) => {
     try {
       // console.log(req.user);
