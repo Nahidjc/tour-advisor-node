@@ -163,6 +163,25 @@ const hotelControllers = {
   },
 
 
+  roomDetails: async (req, res) => {
+    try {
+      const room = await Room.find({_id:req.params.id}).select({
+        hotel: 0,
+        createdAt:0,
+        updatedAt:0
+      });
+
+      res.json({
+        status: "success",
+        result: room.length,
+        room: room,
+      });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+
+
 
 
 
