@@ -123,19 +123,20 @@ const hotelControllers = {
 },
 
 
-  getAssesments: async (req, res) => {
+  hotelList: async (req, res) => {
     try {
-      const assesments = await Assesment.find().select({
-        mentor: 0,
-        created_at: 0,
+      const hotels = await Hotel.find().select({
+        manager: 0,
+        isHotel:0,
+        rooms:0,
         createdAt:0,
         updatedAt:0
       });
 
       res.json({
         status: "success",
-        result: assesments.length,
-        assesments: assesments,
+        result: hotel.length,
+        hotels: hotels,
       });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
