@@ -6,6 +6,10 @@ const hotelRatingSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "users",
     },
+    author: {
+        type: String,
+        require: true,
+    },
     rating: {
         type: Number,
         require: true,

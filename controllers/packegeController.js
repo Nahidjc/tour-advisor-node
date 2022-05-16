@@ -5,14 +5,14 @@ const Packege = require("../models/packegeModel");
 const packegeControllers = {
   createPackege: async (req, res) => {
     try {
-      const { host, description, price, from,destination,img } = req.body;
-      if (!host || !description || !price || !from || !destination ) {
+      const {  description, price, from,destination,img } = req.body;
+      if ( !description || !price || !from || !destination ) {
         return res.status(400).json({ msg: "Invalid Packege Credentials." });
       }
-      if (!img) {
-        return res.status(400).json({ msg: "No Image is Selected." });
-      }
-      const hostPerson = await User.findOne({ _id: host });
+      // if (!img) {
+      //   return res.status(400).json({ msg: "No Image is Selected." });
+      // }
+      const hostPerson = await User.findOne({ _id: req.user.id });
     
       const newPackege = new Packege({
         host: hostPerson._id,
@@ -52,7 +52,7 @@ const packegeControllers = {
 
   packegeDetails: async (req, res) => {
     try {
-      const packege = await Packege.find({_id:req.params.id}).select({
+      const packege = await Packege.findOne({_id:req.params.id}).select({
         host: 0,
         createdAt:0,
         updatedAt:0
@@ -60,7 +60,6 @@ const packegeControllers = {
 
       res.json({
         status: "success",
-        result: packege.length,
         packege: packege,
       });
     } catch (error) {

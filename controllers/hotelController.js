@@ -143,6 +143,10 @@ const hotelControllers = {
     }
   },
 
+
+
+
+
   hotelDetails: async (req, res) => {
     try {
       const hotel = await Hotel.find({_id:req.params.id}).select({
@@ -182,6 +186,37 @@ const hotelControllers = {
   },
 
 
+  addRating:async(req,res)=>{
+    try {
+      const { rating, comment } = req.body;
+      if (!rating || !comment) {
+        return res.status(400).json({ msg: "Invalid Comment." });
+      }
+      const hotel = await Hotel.findById(req.params.id);
+
+      if (!hotel) {
+        return res.status(400).json({ msg: "Hotel Not Found." });
+      }
+      const user = req.user.id;
+      const author = await User.findOne({ _id: user });
+      console.log(hotel);
+
+      hotel.rating.push({
+        user:user,
+        rating,
+        comment,
+        author: author.fullName,
+      });
+      hotel.save();
+
+      res.json({
+        status: "Successfully Commented",
+        
+      });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
 
 
 
