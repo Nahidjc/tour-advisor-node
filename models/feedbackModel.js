@@ -9,7 +9,7 @@ const feedbackSchema = mongoose.Schema({
         type: Number,
         require: true,
     },
-    username: {
+    fullName: {
         type: String,
         require: true,
     },

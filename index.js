@@ -4,9 +4,9 @@ const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
-
+const router = require("express").Router();
 const app = express();
-
+const user= require('./middleware/auth')
 app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
@@ -46,6 +46,7 @@ app.use("/user", require("./routes/userRoutes"));
 app.use("/hotel", require("./routes/hotelRoutes"));
 app.use("/packege", require("./routes/packegeRoutes"));
 app.use("/admin", require("./routes/adminRoutes"));
+app.use("/feedback", require("./routes/feedbackRoutes"));
 
 
 app.listen(PORT, () => {

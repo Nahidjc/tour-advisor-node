@@ -70,6 +70,31 @@ const hotelControllers = {
   },
 
 
+
+  updateRoom:async (req, res) => {
+    try {
+        const { title,description, deadline_at} = req.body;
+        if (!title || !description) {
+            return res.status(400).json({ msg: "Invalid Assesment Credentials." });
+        }
+
+        const assesment = await Assesment.findById(req.params.id);
+        if (!assesment) {
+            return res.status(400).json({ msg: "Assesment Not Found." });
+        }
+
+        await Assesment.findOneAndUpdate(
+            { _id: req.params.id },
+            { title, description,deadline_at}
+        );
+        res.json({ msg: "Assesment is Updated." });
+    } catch (error) {
+        return res.status(500).json({ msg: error.message });
+    }
+},
+
+
+
   addHotel: async (req, res) => {
     try {
       const { hotelName,email, description, category } = req.body;
@@ -100,27 +125,6 @@ const hotelControllers = {
 
 
 
-  updateAssesment:async (req, res) => {
-    try {
-        const { title,description, deadline_at} = req.body;
-        if (!title || !description) {
-            return res.status(400).json({ msg: "Invalid Assesment Credentials." });
-        }
-
-        const assesment = await Assesment.findById(req.params.id);
-        if (!assesment) {
-            return res.status(400).json({ msg: "Assesment Not Found." });
-        }
-
-        await Assesment.findOneAndUpdate(
-            { _id: req.params.id },
-            { title, description,deadline_at}
-        );
-        res.json({ msg: "Assesment is Updated." });
-    } catch (error) {
-        return res.status(500).json({ msg: error.message });
-    }
-},
 
 
   hotelList: async (req, res) => {
