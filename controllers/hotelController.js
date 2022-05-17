@@ -3,6 +3,7 @@ const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 const Hotel = require("../models/hotelModel")
 const Room = require("../models/roomModel")
+const RoomBooking = require("../models/roomBooking")
 const hotelControllers = {
   createPackege: async (req, res) => {
     try {
@@ -71,29 +72,56 @@ const hotelControllers = {
 
 
 
-  updateRoom:async (req, res) => {
+  roomBooking:async (req, res) => {
     try {
-        const { title,description, deadline_at} = req.body;
-        if (!title || !description) {
-            return res.status(400).json({ msg: "Invalid Assesment Credentials." });
+        const { price,category,phoneNumber,address,checkout} = req.body;
+        if (!price || !category || !phoneNumber || !address  || !checkout) {
+            return res.status(400).json({ msg: "Invalid Room Booking Credentials." });
         }
+        const user = req.user.id;
+        const author = await User.findOne({ _id: user });
+        const newBooking = new RoomBooking({
+          user,
+          room:req.params.id,
+          price,
+          category,
+          phoneNumber,
+          address,
+          checkout
+        })
 
-        const assesment = await Assesment.findById(req.params.id);
-        if (!assesment) {
-            return res.status(400).json({ msg: "Assesment Not Found." });
-        }
-
-        await Assesment.findOneAndUpdate(
-            { _id: req.params.id },
-            { title, description,deadline_at}
-        );
-        res.json({ msg: "Assesment is Updated." });
+        await newBooking.save()
+        res.json({ msg: "Your Room Booked Successfully done" });
     } catch (error) {
         return res.status(500).json({ msg: error.message });
     }
 },
 
 
+roomBookingPayment:async (req, res) => {
+  try {
+      const { isPaid } = req.body;
+      
+      const user = req.user.id;
+      const author = await User.findOne({ _id: user });
+      const roomBooking = await RoomBooking.findById(req.params.id);
+      if (!roomBooking) {
+        return res.status(400).json({ msg: "Room Booking Not Found" });
+      }
+
+      await RoomBooking.findOneAndUpdate(
+        { _id: req.params.id },
+        { isPaid:true }
+      );
+      await Room.findOneAndUpdate(
+        { _id: roomBooking.room },
+        { booked:true}
+      );
+      res.json({ msg: "Your Payment Successfully done" });
+  } catch (error) {
+      return res.status(500).json({ msg: error.message });
+  }
+},
 
   addHotel: async (req, res) => {
     try {

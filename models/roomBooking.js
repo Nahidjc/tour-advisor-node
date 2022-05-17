@@ -5,6 +5,10 @@ const roomBookingSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "users",
       },
+    room: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Room",
+      },
       price: {
         type: Number,
         trim: true,
